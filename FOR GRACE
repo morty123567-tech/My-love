@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Special Gift For You ❤️</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(circle, #2b0938 0%, #0a0012 100%);
+            overflow: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* 3D Floating Hearts Background */
+        .bg-heart {
+            position: absolute;
+            color: rgba(255, 77, 109, 0.6);
+            filter: drop-shadow(0 0 10px #ff4d6d);
+            animation: floatUp 5s linear infinite;
+            pointer-events: none;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(100vh) scale(0.3) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-10vh) scale(1.2) rotate(360deg); opacity: 0; }
+        }
+
+        /* Envelope Container */
+        .container {
+            position: relative;
+            perspective: 1000px;
+        }
+        .envelope-wrapper {
+            width: 320px;
+            height: 220px;
+            background-color: #ff4d6d;
+            border-radius: 12px;
+            box-shadow: 0 0 30px rgba(255, 77, 109, 0.5), 0 15px 25px rgba(0,0,0,0.5);
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.5s ease;
+        }
+        .envelope-wrapper:hover {
+            transform: scale(1.05) rotate(1deg);
+        }
+
+        /* Flap & Design */
+        .envelope-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            border-left: 160px solid transparent;
+            border-right: 160px solid transparent;
+            border-top: 130px solid #ff758f;
+            transform-origin: top;
+            transition: transform 0.6s ease;
+            z-index: 3;
+        }
+        .envelope-wrapper.open::before {
+            transform: rotateX(180deg);
+            z-index: 1;
+        }
+
+        /* Open Button */
+        .open-btn {
+            position: absolute;
+            top: 55%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 12px 28px;
+            background: linear-gradient(45deg, #ff4d6d, #ff758f);
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: bold;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+            cursor: pointer;
+            z-index: 4;
+            transition: 0.3s;
+        }
+        .open-btn:hover {
+            box-shadow: 0 0 25px rgba(255, 255, 255, 0.9);
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        /* Letter Modal */
+        .letter-card {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            width: 90%;
+            max-width: 420px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 0 40px rgba(255, 77, 109, 0.8);
+            text-align: center;
+            z-index: 10;
+            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .letter-card.active {
+            transform: translate(-50%, -50%) scale(1);
+        }
+        .letter-card h2 {
+            color: #ff4d6d;
+            margin-bottom: 15px;
+            font-size: 24px;
+            text-shadow: 0 0 5px rgba(255, 77, 109, 0.3);
+        }
+        .letter-card p {
+            color: #333;
+            font-size: 16px;
+            line-height: 1.8;
+            min-height: 100px;
+            text-align: left;
+        }
+
+        /* Heart Pulse Icon */
+        .heart-icon {
+            font-size: 50px;
+            animation: beat 1s infinite alternate;
+            margin-bottom: 10px;
+        }
+        @keyframes beat {
+            to { transform: scale(1.2); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="envelope-wrapper" id="envelope">
+            <button class="open-btn" onclick="openSurprise()">✨ กดเปิดของขวัญ ✨</button>
+        </div>
+    </div>
+
+    <div class="letter-card" id="letterCard">
+        <div class="heart-icon">💖</div>
+        <h2>ถึงคนพิเศษของเค้า...</h2>
+        <p id="typedText"></p>
+    </div>
+
+    <script>
+        // สร้างหัวใจลอยเรืองแสงเต็มจอ
+        function createHearts() {
+            for(let i = 0; i < 25; i++) {
+                let heart = document.createElement('div');
+                heart.className = 'bg-heart';
+                heart.innerHTML = '❤️';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                heart.style.animationDelay = Math.random() * 5 + 's';
+                document.body.appendChild(heart);
+            }
+        }
+        createHearts();
+
+        // ข้อความพิมพ์ทีละตัว (แก้ไขความซึ้งตรงนี้ได้เลย)
+        const message = "ตั้งแต่วันแรกที่ได้รู้จักกับแฟน ชีวิตเค้าก็มีความสุขและมีความหมายขึ้นมากๆ เลยนะ ขอบคุณสำหรับทุกๆ รอยยิ้ม ความน่ารัก และความสดใสที่มอบให้กันเสมอ อยู่เป็นความสุขให้กันแบบนี้ไปนานๆแส๊นนานเยยย รักแฟนที่ฉุดในจักรยานล้านโลกเยยย! 🥰✨";
+        
+        let index = 0;
+        function typeWriter() {
+            if (index < message.length) {
+                document.getElementById("typedText").innerHTML += message.charAt(index);
+                index++;
+                setTimeout(typeWriter, 50); // ความเร็วการพิมพ์ (มิลลิวินาที)
+            }
+        }
+
+        // ฟังก์ชันเมื่อกดเปิดจดหมาย
+        function openSurprise() {
+            document.getElementById('envelope').classList.add('open');
+            document.querySelector('.open-btn').style.display = 'none';
+
+            // พลุหัวใจระเบิดกระจาย (Confetti)
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#ff4d6d', '#ff758f', '#ffffff']
+            });
+
+            setTimeout(() => {
+                document.getElementById('letterCard').classList.add('active');
+                typeWriter();
+            }, 600);
+        }
+    </script>
+</body>
+</html>
