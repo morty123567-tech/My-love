@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>มีของขวัญมาให้ครับ ❤️</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #ffe6e8;
+            font-family: 'Tahoma', sans-serif;
+            overflow: hidden;
+            flex-direction: column;
+        }
+
+        /* เอฟเฟกต์หัวใจเด้งกระจาย */
+        .heart-bg {
+            position: absolute;
+            color: #ff4d6d;
+            animation: float 4s infinite ease-in;
+            font-size: 24px;
+            pointer-events: none;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) scale(0); opacity: 1; }
+            100% { transform: translateY(-10vh) scale(1.5); opacity: 0; }
+        }
+
+        /* ซองจดหมาย */
+        .envelope-wrapper {
+            position: relative;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .envelope {
+            width: 280px;
+            height: 180px;
+            background: #ff758f;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            transition: transform 0.3s;
+        }
+
+        .envelope:hover {
+            transform: scale(1.05);
+        }
+
+        .btn-open {
+            background-color: #fff;
+            color: #ff4d6d;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 20px;
+            font-size: 16px;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .btn-open:hover {
+            background-color: #ff4d6d;
+            color: #fff;
+        }
+
+        /* ป๊อปอัปข้อความ */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+            width: 80%;
+            max-width: 350px;
+            text-align: center;
+            z-index: 10;
+        }
+
+        .modal h2 { color: #ff4d6d; margin-top: 0; }
+        .modal p { color: #555; line-height: 1.6; font-size: 16px; }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.4);
+            z-index: 5;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- สร้างหัวใจเด้งลอยขึ้นมา -->
+    <script>
+        function createHeart() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart-bg');
+            heart.innerHTML = '❤️';
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.animationDuration = Math.random() * 2 + 3 + 's';
+            document.body.appendChild(heart);
+            setTimeout(() => { heart.remove(); }, 5000);
+        }
+        setInterval(createHeart, 300);
+    </script>
+
+    <!-- ซองจดหมายและปุ่มกด -->
+    <div class="envelope-wrapper">
+        <div class="envelope">
+            <button class="btn-open" onclick="openLetter()">📩 กดเปิดดูข้อความในซองนะ</button>
+        </div>
+    </div>
+
+    <!-- หน้าต่างข้อความซ่อนอยู่ -->
+    <div class="overlay" id="overlay"></div>
+    <div class="modal" id="modal">
+        <h2>ถึงคนเก่งของเค้า ❤️</h2>
+        <p id="letter-text">
+            ตั้งแต่วันแรกจนถึงวันนี้ ขอบคุณที่เข้ามาเป็นความสดใสให้นะครับ <br>
+            อยากให้อยู่เป็นความสุขแบบนี้ไปนานๆ รักมากๆ นะครับ ✨
+        </p>
+        <button class="btn-open" style="margin-top: 15px;" onclick="closeLetter()">ปิดจดหมาย</button>
+    </div>
+
+    <script>
+        function openLetter() {
+            document.getElementById('modal').style.display = 'block';
+            document.getElementById('overlay').style.display = 'block';
+        }
+        function closeLetter() {
+            document.getElementById('modal').style.display = 'none';
+            document.getElementById('overlay').style.display = 'none';
+        }
+    </script>
+
+</body>
+</html>
