@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Special Gift For You ❤️</title>
+    <title>Happy Birthday My Love 🎂✨</title>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -12,17 +12,18 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: radial-gradient(circle, #2b0938 0%, #0a0012 100%);
+            background: radial-gradient(circle, #3a0ca3 0%, #0f051d 100%);
             overflow: hidden;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            flex-direction: column;
         }
 
-        /* 3D Floating Hearts Background */
-        .bg-heart {
+        /* 3D Floating Hearts & Stars */
+        .bg-element {
             position: absolute;
-            color: rgba(255, 77, 109, 0.6);
-            filter: drop-shadow(0 0 10px #ff4d6d);
-            animation: floatUp 5s linear infinite;
+            color: rgba(255, 117, 143, 0.7);
+            filter: drop-shadow(0 0 8px #ff758f);
+            animation: floatUp 4s linear infinite;
             pointer-events: none;
         }
         @keyframes floatUp {
@@ -30,63 +31,54 @@
             100% { transform: translateY(-10vh) scale(1.2) rotate(360deg); opacity: 0; }
         }
 
-        /* Envelope Container */
-        .container {
-            position: relative;
-            perspective: 1000px;
-        }
-        .envelope-wrapper {
-            width: 320px;
-            height: 220px;
-            background-color: #ff4d6d;
-            border-radius: 12px;
-            box-shadow: 0 0 30px rgba(255, 77, 109, 0.5), 0 15px 25px rgba(0,0,0,0.5);
-            position: relative;
-            cursor: pointer;
-            transition: transform 0.5s ease;
-        }
-        .envelope-wrapper:hover {
-            transform: scale(1.05) rotate(1deg);
+        /* Container */
+        .box-wrapper {
+            text-align: center;
+            z-index: 2;
         }
 
-        /* Flap & Design */
-        .envelope-wrapper::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            border-left: 160px solid transparent;
-            border-right: 160px solid transparent;
-            border-top: 130px solid #ff758f;
-            transform-origin: top;
-            transition: transform 0.6s ease;
-            z-index: 3;
+        /* Cake & Candle Style */
+        .cake-container {
+            font-size: 80px;
+            cursor: pointer;
+            transition: transform 0.3s;
+            position: relative;
+            display: inline-block;
         }
-        .envelope-wrapper.open::before {
-            transform: rotateX(180deg);
-            z-index: 1;
+        .cake-container:hover {
+            transform: scale(1.1);
+        }
+
+        .candle-flame {
+            position: absolute;
+            top: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+            animation: flicker 0.6s infinite alternate;
+        }
+        @keyframes flicker {
+            0% { opacity: 1; filter: drop-shadow(0 0 8px #ffb703); }
+            100% { opacity: 0.6; filter: drop-shadow(0 0 2px #ffb703); }
         }
 
         /* Open Button */
-        .open-btn {
-            position: absolute;
-            top: 55%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            padding: 12px 28px;
-            background: linear-gradient(45deg, #ff4d6d, #ff758f);
+        .action-btn {
+            margin-top: 25px;
+            padding: 14px 32px;
+            background: linear-gradient(45deg, #ff4d6d, #7209b7);
             color: white;
             border: none;
             border-radius: 30px;
-            font-size: 16px;
+            font-size: 18px;
             font-weight: bold;
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+            box-shadow: 0 0 20px rgba(255, 77, 109, 0.6);
             cursor: pointer;
-            z-index: 4;
             transition: 0.3s;
         }
-        .open-btn:hover {
-            box-shadow: 0 0 25px rgba(255, 255, 255, 0.9);
-            transform: translate(-50%, -50%) scale(1.1);
+        .action-btn:hover {
+            box-shadow: 0 0 30px rgba(255, 77, 109, 0.9);
+            transform: scale(1.05);
         }
 
         /* Letter Modal */
@@ -101,7 +93,7 @@
             backdrop-filter: blur(10px);
             padding: 30px;
             border-radius: 20px;
-            box-shadow: 0 0 40px rgba(255, 77, 109, 0.8);
+            box-shadow: 0 0 40px rgba(247, 37, 133, 0.8);
             text-align: center;
             z-index: 10;
             transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -110,89 +102,117 @@
             transform: translate(-50%, -50%) scale(1);
         }
         .letter-card h2 {
-            color: #ff4d6d;
+            color: #7209b7;
             margin-bottom: 15px;
             font-size: 24px;
-            text-shadow: 0 0 5px rgba(255, 77, 109, 0.3);
         }
         .letter-card p {
             color: #333;
             font-size: 16px;
             line-height: 1.8;
-            min-height: 100px;
+            min-height: 120px;
             text-align: left;
-        }
-
-        /* Heart Pulse Icon */
-        .heart-icon {
-            font-size: 50px;
-            animation: beat 1s infinite alternate;
-            margin-bottom: 10px;
-        }
-        @keyframes beat {
-            to { transform: scale(1.2); }
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div class="envelope-wrapper" id="envelope">
-            <button class="open-btn" onclick="openSurprise()">✨ กดเปิดของขวัญ ✨</button>
+    <div class="box-wrapper" id="mainBox">
+        <div class="cake-container" onclick="blowCandle()">
+            <div class="candle-flame" id="flame">🔥</div>
+            🎂
         </div>
+        <br>
+        <button class="action-btn" id="btnText" onclick="blowCandle()">🕯️ กดเพื่อเป่าเทียนวันเกิด 🕯️</button>
     </div>
 
     <div class="letter-card" id="letterCard">
-        <div class="heart-icon">💖</div>
-        <h2>H.B.D.🎂</h2>
-        <p id="สุขสันต์วันเกิดนะค้าบแฟนคนสวยของเค้า เค้ารักแฟนนที่สุดเลยยย ถึงแม้มันจะไม่ใหญ่โตมากหรือจะไม่ใช่ของขวัญแต่จับแตะได้แต่เค้าก็พยายามที่สุดแล้ว"></p>
+        <div style="font-size: 40px; margin-bottom: 10px;">🎁💖</div>
+        <h2>Happy Birthday นะครับ!</h2>
+        <p id="typedText"></p>
     </div>
 
     <script>
-        // สร้างหัวใจลอยเรืองแสงเต็มจอ
-        function createHearts() {
-            for(let i = 0; i < 25; i++) {
-                let heart = document.createElement('div');
-                heart.className = 'bg-heart';
-                heart.innerHTML = '🎂';
-                heart.style.left = Math.random() * 100 + 'vw';
-                heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
-                heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
-                heart.style.animationDelay = Math.random() * 5 + 's';
-                document.body.appendChild(heart);
+        // สร้างเอฟเฟกต์ดาวและหัวใจลอยขึ้น
+        function createElements() {
+            const icons = ['❤️', '✨', '🎂', '🎉', '💖'];
+            for(let i = 0; i < 30; i++) {
+                let el = document.createElement('div');
+                el.className = 'bg-element';
+                el.innerHTML = icons[Math.floor(Math.random() * icons.length)];
+                el.style.left = Math.random() * 100 + 'vw';
+                el.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                el.style.animationDuration = (Math.random() * 3 + 3) + 's';
+                el.style.animationDelay = Math.random() * 5 + 's';
+                document.body.appendChild(el);
             }
         }
-        createHearts();
+        createElements();
 
-        // ข้อความพิมพ์ทีละตัว (แก้ไขความซึ้งตรงนี้ได้เลย)
-        const message = "สุขสันวันเกิดน้าา เค้าจะอวยพรให้ถึงจะไม่เก่งก็เถอะ5555 เค้าขอให้แฟนร่างกายแข็งแรง ไม่เจ็บไม่ป่วย ใครนินทาดูถูกอะไรอย่าไปแคร์ และก็ ตั้งแต่วันแรกที่ได้รู้จักกับแฟน ชีวิตเค้าก็มีความสุขและมีความหมายขึ้นมากๆ เลยนะ ขอบคุณสำหรับทุกๆ รอยยิ้ม ความน่ารัก และความสดใสที่มอบให้กันเสมอ อยู่เป็นความสุขให้กันแบบนี้ไปนานๆแส๊นนานเยยย รักแฟนที่ฉุดในจักรยานล้านโลกเยยย!มั้ววววว H.B.D. 🎂🥰✨";
+        // ข้อความอวยพรวันเกิด (เปลี่ยนคำตรงนี้ได้เลย)
+        const message = "สุขสันต์วันเกิดนะคนเก่งของเค้า! 🎂✨ ขอให้ปีนี้เป็นปีที่มีแต่ความสุข ยิ้มเยอะๆ สุขภาพแข็งแรง คิดหวังสิ่งไหนก็ขอให้สมปรารถนาน้าา ขอบคุณที่เกิดมาให้เค้าได้รัก และขอบคุณที่เป็นความสดใสในทุกๆ วัน อยู่ฉลองวันเกิดด้วยกันแบบนี้ไปทุกๆ ปีเลยนะ รักที่สุดเยยยยย 🥰❤️";
         
         let index = 0;
         function typeWriter() {
             if (index < message.length) {
                 document.getElementById("typedText").innerHTML += message.charAt(index);
                 index++;
-                setTimeout(typeWriter, 50); // ความเร็วการพิมพ์ (มิลลิวินาที)
+                setTimeout(typeWriter, 45);
             }
         }
 
-        // ฟังก์ชันเมื่อกดเปิดจดหมาย
-        function openSurprise() {
-            document.getElementById('envelope').classList.add('open');
-            document.querySelector('.open-btn').style.display = 'none';
-
-            // พลุหัวใจระเบิดกระจาย (Confetti)
-            confetti({
-                particleCount: 100,
-                spread: 70,
-                origin: { y: 0.6 },
-                colors: ['#ff4d6d', '#ff758f', '#ffffff']
+        // เสียงทำนองเพลง Happy Birthday แบบสังเคราะห์ (ไม่ใช้ไฟล์ภายนอก)
+        function playHBDMusic() {
+            const ctx = new (window.AudioContext || window.webkitAudioContext)();
+            const notes = [
+                {f: 264, d: 0.3}, {f: 264, d: 0.3}, {f: 297, d: 0.6}, {f: 264, d: 0.6}, {f: 352, d: 0.6}, {f: 330, d: 1.2},
+                {f: 264, d: 0.3}, {f: 264, d: 0.3}, {f: 297, d: 0.6}, {f: 264, d: 0.6}, {f: 396, d: 0.6}, {f: 352, d: 1.2}
+            ];
+            let time = ctx.currentTime;
+            notes.forEach(note => {
+                let osc = ctx.createOscillator();
+                let gain = ctx.createGain();
+                osc.frequency.value = note.f;
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start(time);
+                gain.gain.setValueAtTime(0.2, time);
+                gain.gain.exponentialRampToValueAtTime(0.001, time + note.d);
+                osc.stop(time + note.d);
+                time += note.d;
             });
+        }
 
+        // ฟังก์ชันเมื่อกดเป่าเทียน
+        function blowCandle() {
+            // ดับไฟเทียน
+            document.getElementById('flame').style.display = 'none';
+            document.getElementById('mainBox').style.opacity = '0.3';
+
+            // เล่นเสียงเพลงวันเกิด
+            playHBDMusic();
+
+            // จุดพลุกระดาษฉลองวันเกิดสุดอลังการ
+            var count = 200;
+            var defaults = { origin: { y: 0.7 } };
+
+            function fire(particleRatio, opts) {
+                confetti(Object.assign({}, defaults, opts, {
+                    particleCount: Math.floor(count * particleRatio)
+                }));
+            }
+
+            fire(0.25, { spread: 26, startVelocity: 55 });
+            fire(0.2, { spread: 60 });
+            fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8 });
+            fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, scalar: 1.2 });
+            fire(0.1, { spread: 120, startVelocity: 45 });
+
+            // แสดงการ์ดอวยพร
             setTimeout(() => {
                 document.getElementById('letterCard').classList.add('active');
                 typeWriter();
-            }, 600);
+            }, 800);
         }
     </script>
 </body>
